@@ -1,4 +1,6 @@
-## A simple web app for Ulaanbaatar residents to report local problems (trash, potholes, broken streetlights). Citizens can submit reports with photos and locations and administrators can manage them.
+## City Voice-Local Issue Reporting System
+A simple web app for Ulaanbaatar residents to report local issues with photos and locations, while admins manage the reports.
+   
 
 ## Tech Stack
   * Language: TypeScript
