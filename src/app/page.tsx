@@ -1,15 +1,13 @@
 import Link from "next/link";
 import { MapPin, PlusCircle, ListChecks, ShieldAlert } from "lucide-react";
 import { UserButton, SignInButton, SignUpButton } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server"; // Server дээр эрх шалгах функц
+import { auth } from "@clerk/nextjs/server";
 
 export default async function HomePage() {
-  // Сервер талаас шууд нэвтэрсэн эсэхийг шалгах
   const { userId } = await auth();
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col justify-between">
-      {/* Header / Nav */}
       <header className="w-full max-w-6xl mx-auto p-6 flex items-center justify-between">
         <div className="flex items-center gap-2 font-bold text-xl text-emerald-600 dark:text-emerald-400">
           <ShieldAlert className="w-6 h-6" />
@@ -25,7 +23,6 @@ export default async function HomePage() {
           </Link>
 
           {userId ? (
-            /* Нэвтэрсэн үед харагдах хэсэг */
             <div className="flex items-center gap-3">
               <Link
                 href="/admin"
@@ -36,7 +33,7 @@ export default async function HomePage() {
               <UserButton />
             </div>
           ) : (
-            /* Нэвтрээгүй үед харагдах хэсэг */
+            // nevtregu uyd haragdah heseg
             <div className="flex items-center gap-2">
               <SignInButton mode="modal">
                 <button className="px-3 py-1.5 text-sm font-medium text-zinc-700 dark:text-zinc-200 hover:text-emerald-600 transition-colors">
