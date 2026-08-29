@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { MapPin, PlusCircle, ListChecks, ShieldAlert } from "lucide-react";
+import { UserButton, SignInButton, SignUpButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server"; // Server дээр эрх шалгах функц
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Сервер талаас шууд нэвтэрсэн эсэхийг шалгах
+  const { userId } = await auth();
+
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col justify-between">
       {/* Header / Nav */}
@@ -10,23 +15,52 @@ export default function HomePage() {
           <ShieldAlert className="w-6 h-6" />
           <span>CityVoice</span>
         </div>
-        <div className="flex items-center gap-3">
+
+        <div className="flex items-center gap-4">
           <Link
             href="/issues"
-            className="text-sm font-medium hover:text-emerald-600 transition-colors"
+            className="text-sm font-medium hover:text-emerald-600 transition-colors hidden sm:inline-block"
           >
             Гомдлууд харах
           </Link>
+
+          {userId ? (
+            /* Нэвтэрсэн үед харагдах хэсэг */
+            <div className="flex items-center gap-3">
+              <Link
+                href="/admin"
+                className="text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:underline"
+              >
+                Админ самбар
+              </Link>
+              <UserButton />
+            </div>
+          ) : (
+            /* Нэвтрээгүй үед харагдах хэсэг */
+            <div className="flex items-center gap-2">
+              <SignInButton mode="modal">
+                <button className="px-3 py-1.5 text-sm font-medium text-zinc-700 dark:text-zinc-200 hover:text-emerald-600 transition-colors">
+                  Нэвтрэх
+                </button>
+              </SignInButton>
+
+              <SignUpButton mode="modal">
+                <button className="px-4 py-2 text-sm font-medium bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors">
+                  Бүртгүүлэх
+                </button>
+              </SignUpButton>
+            </div>
+          )}
+
           <Link
             href="/issues/new"
-            className="px-4 py-2 text-sm font-medium bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
+            className="px-4 py-2 text-sm font-medium bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors hidden sm:inline-block"
           >
             Гомдол гаргах
           </Link>
         </div>
       </header>
 
-      {/* Hero Section */}
       <main className="flex-1 max-w-4xl mx-auto px-6 py-16 text-center flex flex-col items-center justify-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 text-xs font-semibold mb-6">
           <MapPin className="w-3.5 h-3.5" /> Улаанбаатар хотын иргэдийн дуу
